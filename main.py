@@ -1,0 +1,91 @@
+import random
+import requests
+import json
+
+#list of all slot values
+slot_values = {
+    "cherry": 2,
+    "lemon": 3,
+    "orange": 4,
+    "plum": 5,
+    "bell": 6
+}
+
+slot_emojis = {
+    "cherry": "🍒",
+    "lemon": "🍋",
+    "orange": "🍊",
+    "plum": "🍑",
+    "bell": "🔔"
+}
+
+headers = {
+          "authorization": "place id here"
+    }
+
+slot = []
+
+def translate_slot():
+    display = ""
+    for i in range(0, 3, 1):
+        display += slot_emojis[slot[i]] + " "
+    display = display.strip()
+    return display
+
+def spin_slot():
+    spin_input = input("Press Enter [yes] to spin the slot machine...")
+    if spin_input.lower() == "yes":
+        pass
+    else: 
+        print("come back when you are ready to play")
+
+#check for multiplier and return value
+def check_slot() -> int:
+    base_value = 0
+    multiplier = 0
+    max_count = 0
+
+    for i in range(0, 3, 1):
+        base_value += slot_values[slot[i]]
+    for i in range(0, 3, 1):
+        compare = slot[i]
+        count = slot.count(compare)
+        if count > max_count and count != 1:
+            max_count = count
+            multiplier = count
+
+    if max_count == 3:
+        multiplier = 7
+        
+    print(f"value: {base_value} multiplier: {multiplier}")
+    value = base_value*multiplier
+    return value
+            
+def retrieve_messages(channelid):
+    list_of_messages = []
+    r = requests.get(f"https://discord.com/api/v9/channels/{channelid}/messages", headers=headers)
+    jsonn = json.loads(r.text)
+    for value in jsonn:
+        list_of_messages.append(value['content'])
+    return list_of_messages[-1]
+
+def send_message(channelid):
+    payload = {
+        "content": f"{translate_slot()} {check_slot()}"
+    }
+    requests.post(url=f"https://discord.com/api/v9/channels/{channelid}/messages", data=payload, headers=headers)
+
+#generates the slot values
+def rand_slot() -> None:
+    choice = None 
+    for i in range(0, 3, 1):
+        choice = random.choice(list(slot_values.keys()))
+        slot.append(choice)
+    return (slot)
+
+
+if __name__ == "__main__":
+    slot_result = retrieve_messages("channel id here")
+    if slot_result == "/spin":
+        send_message("channel id here")
+        
