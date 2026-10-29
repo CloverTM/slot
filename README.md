@@ -1,5 +1,5 @@
 ﻿# Slot
-This is a shitpost slot machine which we made during a liveshare session :D
+This is a shitpost slot machine which we(Clover and Azzie) made during a liveshare session :D
 
 **Get Started**
 1. Open up devtools in the browser and navigate to the network tab.
