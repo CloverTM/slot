@@ -8,5 +8,5 @@ This is a shitpost slot machine which we(Clover and Azzie) made during a livesha
 5. Paste it in the python file
 6. Copy channel_id from the url, channels/`{channel id}`.
 7. Paste it in the python file
-8. Now you can run the /spin command! (ᴗᵔᴥᵔ)
+8. Now you can run the ./spin command! (ᴗᵔᴥᵔ)
 
